@@ -91,4 +91,10 @@ load_data(target_file,transformed_data)
 log_progress("Load phase Ended") 
   
 # Log the completion of the ETL process 
-log_progress("ETL Job Ended") 
+log_progress("ETL Job Ended")
+
+#After completing this lab, you will be able to:
+#Read CSV, JSON, and XML file types.
+#Extract the required data from the different file types.
+#Transform data to the required format.
+#Save the transformed data in a ready-to-load format, which can be loaded into an RDBMS
