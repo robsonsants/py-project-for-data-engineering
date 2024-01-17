@@ -1,8 +1,8 @@
 # Objetives:
 By the end of this lab, you will be able to:
-Use the requests and BeautifulSoup libraries to extract the contents of a web page
-Analyze the HTML code of a webpage to find the relevant information
-Extract the relevant information and save it in the required form
+1. Use the requests and BeautifulSoup libraries to extract the contents of a web page
+2. Analyze the HTML code of a webpage to find the relevant information
+3. Extract the relevant information and save it in the required form
 
 # Scenario
 Consider that you have been hired by a Multiplex management organization 
@@ -31,8 +31,13 @@ While requests and sqlite3 come bundled with Python3, you need to install pandas
 
 For this, run the following commands in a terminal window.
 
+```sh
 python3.11 -m pip install pandas
 python3.11 -m pip install bs4
+```
 
 # to run the code 
+
+```sh
 python webscraping_movies.py
+```
