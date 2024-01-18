@@ -22,8 +22,8 @@ query_output = pd.read_sql(query_statement, conn)
 print(query_statement)
 print(query_output)
 
-#viewing only FNAME column of data
-query_statement = f"SELECT FNAME FROM {table_name}"
+#viewing only DEP_NAME column of data
+query_statement = f"SELECT DEP_NAME FROM {table_name}"
 query_output = pd.read_sql(query_statement, conn)
 print(query_statement)
 print(query_output)
