@@ -67,29 +67,76 @@ b. Execute a function call to *transform()* and verify the output.
 
 The Transform function needs to perform the following tasks:
 
-Read the exchange rate CSV file and convert the contents to a dictionary so that the contents of the first columns are the keys to the dictionary and the contents of the second column are the corresponding values.
-Click here for hint
-Add 3 different columns to the dataframe, viz. MC_GBP_Billion, MC_EUR_Billion and MC_INR_Billion, each containing the content of MC_USD_Billion scaled by the corresponding exchange rate factor. Remember to round the resulting data to 2 decimal places.
-A sample statement is being provided for adding the MC_GBP_Billion column. You can use this to add the other two statements on your own.
+1. Read the exchange rate CSV file and convert the contents to a dictionary so that the contents of the first columns are the keys to the dictionary and the contents of the second column are the corresponding values.
 
-1
+2. Add 3 different columns to the dataframe, viz. *MC_GBP_Billion*, *MC_EUR_Billion* and *MC_INR_Billion*, each containing the content of *MC_USD_Billion* scaled by the corresponding exchange rate factor. Remember to round the resulting data to 2 decimal places.
+
+A sample statement is being provided for adding the *MC_GBP_Billion* column. You can use this to add the other two statements on your own.
+
+```sh
 df['MC_GBP_Billion'] = [np.round(x*exchange_rate['GBP'],2) for x in df['MC_USD_Billion']]
-Copied!
-Write the function call for transform() and print the contents of the returning data frame. Comment out all previous print statements.
+```
+
+Write the function call for *transform()* and print the contents of the returning data frame. Comment out all previous print statements.
 
 Make the relevant log entry and execute the code.
-
 
 Task 4:
 Load the transformed dataframe to an output CSV file. Write a function *load_to_csv()*, execute a function call and verify the output.
 
 Task 5:
-Load the transformed dataframe to an SQL database server as a table. Write a function *load_to_db()*, execute a function call and verify the output.
+Write the function to load the transformed data frame to an SQL database, like, *load_to_db()*. Use the database and table names as mentioned in the project scenario.
+
+Before calling this function, initiate the connection to the SQLite3 database server with the name *Banks.db*. Pass this connection object, along with the required table name *Largest_banks* and the transformed data frame, to the *load_to_db()* function in the function call.
+
+Make the relevant log entry.
 
 Task 6:
-Run queries on the database table. Write a function *load_to_db()*, execute a given set of queries and verify the output.
+Write the function *run_queries()* that accepts the query statement, and the SQLite3 Connection object, and generates the output of the query. The query statement should be printed along with the query output.
+
+Execute 3 function calls using the queries as mentioned below.
+
+1. Print the contents of the entire table
+Query statement:
+
+```sh
+SELECT * FROM Largest_banks
+```
+
+2. Print the average market capitalization of all the banks in Billion USD.
+Query statement:
+
+```sh
+SELECT AVG(MC_GBP_Billion) FROM Largest_banks
+```
+3. Print only the names of the top 5 banks
+Query statement:
+
+```sh
+SELECT Name from Largest_banks LIMIT 5
+```
+Make the relevant log entry.
 
 Task 7:
-Verify that the log entries have been completed at all stages by checking the contents of the file *code_log.txt*.
+After updating all the *log_progress()* function calls, you have to run the code for a final execution. However, you will first have to remove the *code_log.txt* file, that would have been created and updated throughout the multiple executions of the code in this lab. You may remove the file using the following command on a terminal.
 
+```sh
+rm code_log.txt
+```
+
+# Conclusion
+
+With this, you are now trained to perform ETL operations on real-world data and make the processed information available for further use in different formats.
+
+You should now be able to:
+
+- Use Webscraping techniques to extract information from any website as per requirement.
+
+- Use Pandas data frames and dictionaries to transform data as per requirement.
+
+- Load the processed information to CSV files and as Database tables
+
+- Query the database tables using SQLite3 and pandas libraries
+
+- Log the progress of the code properly
 

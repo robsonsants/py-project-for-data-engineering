@@ -1,0 +1,7 @@
+2024-Jan-19-11:50:46 : Data extracted from the 'By market capitalization' table and loaded into a DataFrame.
+2024-Jan-19-11:50:46 : Initiating Transformation process
+2024-Jan-19-11:50:46 : Data transformation complete. Initiating loading process
+2024-Jan-19-11:50:46 : Data saved to CSV file
+2024-Jan-19-11:50:46 : SQL Connection initiated.
+2024-Jan-19-11:50:46 : Data loaded to Database as table. Running the query
+2024-Jan-19-11:50:46 : Process Complete.

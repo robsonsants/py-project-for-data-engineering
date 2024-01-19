@@ -32,10 +32,32 @@ def extract(url, table_attribs):
             df1 = pd.DataFrame([data_dict], columns=table_attribs)
             df_list.append(df1)
 
-    #Concatenate the list's DataFrames into a single DataFrame
+    #concatenate the list's DataFrames into a single DataFrame
     df = pd.concat(df_list, ignore_index=True)
 
     return df
+
+def transform(df):
+    rate_df = pd.read_csv('exchange_rate.csv')
+    exchange_rate = rate_df.set_index('Currency').to_dict()['Rate']
+
+    #adding new columns with converted and rounded values
+    df['MC_GBP_Billion'] = [np.round(x*exchange_rate['GBP'],2) for x in df['MC_USD_Billion']]
+    df['MC_EUR_Billion'] = [np.round(x*exchange_rate['EUR'],2) for x in df['MC_USD_Billion']]
+    df['MC_INR_Billion'] = [np.round(x*exchange_rate['INR'],2) for x in df['MC_USD_Billion']]
+
+    return df
+
+def load_to_csv(df, csv_path):
+    df.to_csv(csv_path)
+
+def load_to_db(df, sql_connection, table_name):
+    df.to_sql(table_name, sql_connection, if_exists='replace', index=False)
+
+def run_query(query_statement, sql_connection):
+    print(query_statement)
+    query_output = pd.read_sql(query_statement, sql_connection)
+    print(query_output)
 
 def log_progress(message):
     timestamp_format = '%Y-%h-%d-%H:%M:%S' # Year-Monthname-Day-Hour-Minute-Second 
@@ -55,4 +77,39 @@ print(df)
 
 log_progress("Data extracted from the 'By market capitalization' table and loaded into a DataFrame.")
 
+log_progress('Initiating Transformation process')
 
+transformed_df = transform(df)
+print(transformed_df)
+
+#printing the market capitalization value of the fifth largest bank in EUR billions
+fifth_bank_eur_mc = transformed_df['MC_EUR_Billion'][4]
+print(fifth_bank_eur_mc)
+
+log_progress('Data transformation complete. Initiating loading process')
+
+load_to_csv(df, csv_path)
+
+log_progress('Data saved to CSV file')
+
+sql_connection = sqlite3.connect('Banks.db')
+
+log_progress('SQL Connection initiated.')
+
+load_to_db(df, sql_connection, table_name)
+
+log_progress('Data loaded to Database as table. Running the query')
+
+#Print the contents of the entire table
+query_statement = f"SELECT * FROM {table_name}"
+run_query(query_statement, sql_connection)
+
+#Print the average market capitalization of all the banks in Billion USD.
+query_statement = f"SELECT AVG(MC_GBP_Billion) FROM {table_name}"
+run_query(query_statement, sql_connection)
+
+#Print only the names of the top 5 banks
+query_statement = f"SELECT Name from {table_name} LIMIT 5"
+run_query(query_statement, sql_connection)
+
+log_progress('Process Complete.')
